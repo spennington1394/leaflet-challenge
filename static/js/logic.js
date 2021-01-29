@@ -22,8 +22,14 @@ function createMap(earthquake){
     fillcolor: magColor(feature.properties.mag),
     fillOpacity: .5
   })
-  .bindPopup("<h1> Magnitude: " + feature.properties.mag +)
+  .bindPopup("<h1> Magnitude: " + feature.properties.mag + feature.properties.place +
+  new Date(feature.properties.time))
   )
+  //
+  var earthquakes = L.layerGroup(earthquakeMarkers)
+  console.log(d3.extent(d3.values(earthquake),((d) => +d.properties.mag));
+  var magnitude = earthquake.map((d) => magCheck(+d.properties.mag));
+  
 }
 
 
