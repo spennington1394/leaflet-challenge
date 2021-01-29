@@ -16,14 +16,14 @@ function createMap(earthquake){
     radius: (feature.properties.mag) + (feature.geometry.coordinates[2]),
     stroke: true,
     color: 'green',
-    opacity: 2,
+    opacity: .5,
     weight: 1,
     fill: true,
     fillcolor: (feature.properties.mag),
-    fillOpacity: 2
+    fillOpacity: .5
   })
   .bindPopup("<h1> Magnitude: " + feature.properties.mag + feature.properties.place +
-  new Date(feature.properties.time))
+  new Date(feature.properties.time) + feature.geometry.coordinates[2])
   )
   //earthquake layer to marker cluster group
   var earthquakes = L.layerGroup(earthquakeMarkers)
