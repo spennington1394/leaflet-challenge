@@ -49,6 +49,23 @@ function createMap(earthquake){
     zoom: 5,
     layers: [streetmap, earthquakes]
   });
+
+  // Add a legend to the map off of magnitude
+  var legend = L.control({ position: "bottomright" });
+
+  legend.onAdd = function(myMap){
+    var div = L.DomUtil.create("div","legend");
+    div.innerHTML = [
+        "<k class='maglt2'></k><span>0-2</span><br>",
+        "<k class='maglt3'></k><span>2-3</span><br>",
+        "<k class='maglt4'></k><span>3-4</span><br>",
+        "<k class='maglt5'></k><span>4-5</span><br>",
+        "<k class='maggt5'></k><span>5+</span><br>"
+      ].join("");
+    return div;
+  };
+
+  legend.addTo(myMap);
 }
 
 
