@@ -13,14 +13,14 @@ function createMap(earthquake){
   L.circleMarker([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],{
     //set marker radius to magnitude of earthquake and create pop-up with mag info
     //location and time
-    radius: (feature.properties.mag),
+    radius: (feature.properties.mag) + (feature.geometry.coordinates[2]),
     stroke: true,
     color: 'green',
-    opacity: 5,
+    opacity: 2,
     weight: 1,
     fill: true,
     fillcolor: (feature.properties.mag),
-    fillOpacity: 5
+    fillOpacity: 2
   })
   .bindPopup("<h1> Magnitude: " + feature.properties.mag + feature.properties.place +
   new Date(feature.properties.time))
@@ -66,15 +66,26 @@ function createMap(earthquake){
   };
 
   legend.addTo(myMap);
+
     //function for magnitude color 
     function magnitudeColor(mag){
       //empty variable to hold color
-      var color = " ";
+      var color = "";
       if (mag <= 2){color = "#ffffb2";}
       else if (mag <= 3){color = "#fecc5c";}
-      else if (mag <= 4)
-    }
-}
+      else if (mag <= 4){ color = "#fd8d3c"; }
+      else if (mag <= 5) {color = "#f03b20"; }
+      else { color = "#bd0026"; }
+    
+    return color;
+    };
+    function sizeCheck(mag){
+      if (mag <= 1)
+          return 8
+      }
+      return mag * 8;
+    };
+    
 
 
 
