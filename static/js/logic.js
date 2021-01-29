@@ -66,6 +66,14 @@ function createMap(earthquake){
   };
 
   legend.addTo(myMap);
+    //function for magnitude color 
+    function magnitudeColor(mag){
+      //empty variable to hold color
+      var color = " ";
+      if (mag <= 2){color = "#ffffb2";}
+      else if (mag <= 3){color = "#fecc5c";}
+      else if (mag <= 4)
+    }
 }
 
 
