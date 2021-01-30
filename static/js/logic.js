@@ -13,17 +13,16 @@ function createMap(earthquake){
   L.circleMarker([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],{
     //set marker radius to magnitude of earthquake and create pop-up with mag info
     //location and time
-    radius: (feature.properties.mag + feature.geometry.coordinates[2]),
+    radius: getRadius(feature.properties.mag),
     stroke: true,
-    color: 'green',
+    // color: "#20f03b",
     opacity: .5,
     weight: 1,
     fill: true,
-    fillcolor: (feature.properties.mag),
+    fillcolor: getColor(feature.geometry.coordinates[2]),
     fillOpacity: .5
   })
-  .bindPopup("<h1> Magnitude: " + feature.properties.mag + feature.properties.place +
-  new Date(feature.properties.time) + feature.geometry.coordinates[2])
+  .bindPopup("<h1> Magnitude: " + feature.properties.mag + feature.properties.place + feature.geometry.coordinates[2])
   )
   //earthquake layer to marker cluster group
   var earthquakes = L.layerGroup(earthquakeMarkers)
@@ -49,41 +48,47 @@ function createMap(earthquake){
     zoom: 5,
     layers: [streetmap, earthquakes]
   });
+  function getColor(coordinates) {
+    switch (true) {
+    case coordinates < 10:
+      return "#ffffb2";
+    case coordinates >= 10 && coordinates < 30:
+      return "#fd8d3c";
+    case coordinates >= 30 && coordinates < 50:
+      return "#f03b20";
+    case coordinates >= 50 && coordinates < 70:
+      return "#bd0026";
+    case coordinates >= 70 && coordinates < 90:
+      return "#87cefa";
+    default:
+      return "#ffffb2";
+    }
+  }
 
   // Add a legend to the map off of magnitude
   var legend = L.control({ position: "bottomright" });
 
   legend.onAdd = function(myMap){
     var div = L.DomUtil.create("div","legend");
-    div.innerHTML = [
-        "<k class='maglt2'></k><span>0-2</span><br>",
-        "<k class='maglt3'></k><span>2-3</span><br>",
-        "<k class='maglt4'></k><span>3-4</span><br>",
-        "<k class='maglt5'></k><span>4-5</span><br>",
-        "<k class='maggt5'></k><span>5+</span><br>"
-      ].join("");
+    var depths = [-10, 10, 30, 50, 70, 90];
+    var colors = [,"#fecc5c","#fd8d3c","#f03b20","#bd0026","#87cefa"];
+    for (var i = 0; i < depths.length; i++) {
+      div.innerHTML += "<i style='background: " + colors[i] + "'></i> "
+      + depths[i] + (depths[i + 1] ? "&ndash;" + depths[i + 1] + "<br>" : "+");
+      console.log(colors[i]);
+    }
     return div;
   };
 
   legend.addTo(myMap);
 
-    //function for magnitude color 
-    function magnitudeColor(mag){
-      //empty variable to hold color
-      var color = "";
-      if (mag <= 2){color = "#ffffb2";}
-      else if (mag <= 3){color = "#fecc5c";}
-      else if (mag <= 4){ color = "#fd8d3c"; }
-      else if (mag <= 5) {color = "#f03b20"; }
-      else { color = "#bd0026"; }
-    
-    return color;
-    };
-    function sizeCheck(mag){
-      if (mag <= 1)
-          return 8
+    function getRadius(mag){
+      if (mag === 1){
+        return 1
       }
-      return mag * 8;
+      return mag * 4;  
+      }
+      
     };
     
 
