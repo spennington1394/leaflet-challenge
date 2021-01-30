@@ -13,7 +13,7 @@ function createMap(earthquake){
   L.circleMarker([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],{
     //set marker radius to magnitude of earthquake and create pop-up with mag info
     //location and time
-    radius: (feature.properties.mag) + (feature.geometry.coordinates[2]),
+    radius: (feature.properties.mag + feature.geometry.coordinates[2]),
     stroke: true,
     color: 'green',
     opacity: .5,
